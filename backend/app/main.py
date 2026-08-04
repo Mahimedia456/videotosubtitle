@@ -14,10 +14,7 @@ from app.schemas.project import HealthResponse
 
 def configure_console_encoding() -> None:
     """
-    Configure Windows console output as UTF-8 where supported.
-
-    getattr is used instead of direct sys.stdout.reconfigure()
-    so Pylance does not report an unknown TextIO attribute.
+    Configure console output as UTF-8 where supported.
     """
 
     for stream in (sys.stdout, sys.stderr):
@@ -44,8 +41,6 @@ def configure_console_encoding() -> None:
             ValueError,
             TypeError,
         ):
-            # Some terminals or redirected streams do not
-            # allow runtime reconfiguration.
             continue
 
 
@@ -55,27 +50,63 @@ settings = get_settings()
 
 app = FastAPI(
     title=settings.app_name,
-    version="0.3.0",
+    version="0.4.0",
     description=(
         "AI video transcription and Roman Urdu "
         "subtitle generation backend."
     ),
 )
 
-allowed_origins = [
+
+def normalize_origin(
+    origin: str,
+) -> str:
+    return origin.strip().rstrip("/")
+
+
+production_frontend_origin = normalize_origin(
     settings.frontend_origin,
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-]
+)
+
+allowed_origins = list(
+    dict.fromkeys(
+        [
+            production_frontend_origin,
+            "https://videotosubtitle-theta.vercel.app",
+            "http://localhost:5173",
+            "http://127.0.0.1:5173",
+        ],
+    ),
+)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=list(
-        dict.fromkeys(allowed_origins),
+
+    # Exact production and local origins.
+    allow_origins=allowed_origins,
+
+    # Also supports Vercel preview deployment URLs.
+    allow_origin_regex=(
+        r"^https://"
+        r"[a-zA-Z0-9-]+"
+        r"\.vercel\.app$"
     ),
+
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=[
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+        "OPTIONS",
+    ],
     allow_headers=["*"],
+    expose_headers=[
+        "Content-Disposition",
+        "Content-Length",
+    ],
+    max_age=86400,
 )
 
 app.include_router(
@@ -94,6 +125,25 @@ def health_check() -> HealthResponse:
         service=settings.app_name,
         environment=settings.app_env,
     )
+
+
+@app.get(
+    "/cors-debug",
+    tags=["Health"],
+)
+def cors_debug() -> dict[str, Any]:
+    """
+    Temporary endpoint for deployment verification.
+    It does not expose secrets.
+    """
+
+    return {
+        "frontend_origin": (
+            production_frontend_origin
+        ),
+        "allowed_origins": allowed_origins,
+        "vercel_preview_regex_enabled": True,
+    }
 
 
 @app.get(
