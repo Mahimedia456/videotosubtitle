@@ -17,7 +17,7 @@ COPY requirements.txt .
 RUN python -m pip install --upgrade pip \
     && python -m pip install --no-cache-dir -r requirements.txt
 
-COPY app ./app
+COPY . .
 
 RUN mkdir -p \
     storage/uploads \
@@ -25,5 +25,7 @@ RUN mkdir -p \
     storage/projects \
     storage/subtitles \
     storage/exports
+
+EXPOSE 8000
 
 CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
