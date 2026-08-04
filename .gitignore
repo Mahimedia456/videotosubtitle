@@ -1,0 +1,60 @@
+# Node dependencies and builds
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Environment files
+.env
+.env.*
+!.env.example
+frontend/.env
+backend/.env
+
+# Python
+backend/.venv/
+__pycache__/
+*.py[cod]
+*.pyd
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Whisper and AI caches
+.cache/
+backend/.cache/
+models/
+
+# Uploaded/generated media
+backend/storage/uploads/*
+backend/storage/audio/*
+backend/storage/projects/*
+backend/storage/subtitles/*
+backend/storage/exports/*
+
+# Preserve storage directories
+!backend/storage/uploads/.gitkeep
+!backend/storage/audio/.gitkeep
+!backend/storage/projects/.gitkeep
+!backend/storage/subtitles/.gitkeep
+!backend/storage/exports/.gitkeep
+
+# Local tools
+tools/
+ffmpeg/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel/
