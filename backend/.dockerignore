@@ -1,0 +1,16 @@
+.venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+.env
+
+storage/uploads/*
+storage/audio/*
+storage/projects/*
+storage/subtitles/*
+storage/exports/*
+
+.git
+.gitignore
