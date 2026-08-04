@@ -14,7 +14,8 @@ from app.schemas.project import HealthResponse
 
 def configure_console_encoding() -> None:
     """
-    Configure console output as UTF-8 where supported.
+    Configure stdout and stderr as UTF-8 where supported.
+    This avoids Windows console encoding errors during local development.
     """
 
     for stream in (sys.stdout, sys.stderr):
@@ -27,9 +28,7 @@ def configure_console_encoding() -> None:
         if not callable(reconfigure):
             continue
 
-        reconfigure_function: Callable[..., Any] = (
-            reconfigure
-        )
+        reconfigure_function: Callable[..., Any] = reconfigure
 
         try:
             reconfigure_function(
@@ -44,25 +43,24 @@ def configure_console_encoding() -> None:
             continue
 
 
+def normalize_origin(
+    origin: str,
+) -> str:
+    return origin.strip().rstrip("/")
+
+
 configure_console_encoding()
 
 settings = get_settings()
 
 app = FastAPI(
     title=settings.app_name,
-    version="0.4.0",
+    version="0.5.0",
     description=(
         "AI video transcription and Roman Urdu "
         "subtitle generation backend."
     ),
 )
-
-
-def normalize_origin(
-    origin: str,
-) -> str:
-    return origin.strip().rstrip("/")
-
 
 production_frontend_origin = normalize_origin(
     settings.frontend_origin,
@@ -82,17 +80,18 @@ allowed_origins = list(
 app.add_middleware(
     CORSMiddleware,
 
-    # Exact production and local origins.
+    # Exact production and local frontend origins.
     allow_origins=allowed_origins,
 
-    # Also supports Vercel preview deployment URLs.
+    # Allows Vercel preview deployments and Cloudflare quick tunnels.
     allow_origin_regex=(
         r"^https://"
         r"[a-zA-Z0-9-]+"
-        r"\.vercel\.app$"
+        r"\.(vercel\.app|trycloudflare\.com)$"
     ),
 
     allow_credentials=True,
+
     allow_methods=[
         "GET",
         "POST",
@@ -101,11 +100,14 @@ app.add_middleware(
         "DELETE",
         "OPTIONS",
     ],
+
     allow_headers=["*"],
+
     expose_headers=[
         "Content-Disposition",
         "Content-Length",
     ],
+
     max_age=86400,
 )
 
@@ -132,17 +134,11 @@ def health_check() -> HealthResponse:
     tags=["Health"],
 )
 def cors_debug() -> dict[str, Any]:
-    """
-    Temporary endpoint for deployment verification.
-    It does not expose secrets.
-    """
-
     return {
-        "frontend_origin": (
-            production_frontend_origin
-        ),
+        "frontend_origin": production_frontend_origin,
         "allowed_origins": allowed_origins,
-        "vercel_preview_regex_enabled": True,
+        "vercel_preview_allowed": True,
+        "cloudflare_tunnel_allowed": True,
     }
 
 
@@ -155,4 +151,5 @@ def root() -> dict[str, str]:
         "message": settings.app_name,
         "documentation": "/docs",
         "health": "/health",
+        "cors_debug": "/cors-debug",
     }
