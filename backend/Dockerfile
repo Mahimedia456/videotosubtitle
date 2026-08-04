@@ -21,6 +21,11 @@ RUN python -m pip install --upgrade pip \
 
 COPY . .
 
+RUN test -f /app/app/main.py \
+    && test -f /app/app/models/project.py \
+    && python -c \
+        "from app.models.project import TranscriptionProject; print('Backend imports verified')"
+
 RUN mkdir -p \
     storage/uploads \
     storage/audio \
@@ -30,4 +35,4 @@ RUN mkdir -p \
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+CMD ["sh", "-c", "python -m uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
