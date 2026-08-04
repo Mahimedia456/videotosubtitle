@@ -1,7 +1,4 @@
-import {
-  Sparkles,
-  UploadCloud,
-} from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 import { VideoUploadCard } from
   "../components/upload/VideoUploadCard";
@@ -9,21 +6,8 @@ import { VideoUploadCard } from
 import { Badge } from
   "../components/ui/Badge";
 
-import { Button } from
-  "../components/ui/Button";
-
 
 export default function DashboardPage() {
-  function scrollToUploader() {
-    document
-      .getElementById("dashboard-uploader")
-      ?.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-  }
-
-
   return (
     <section className="relative overflow-hidden bg-cream-gradient">
       <div className="pointer-events-none absolute -right-32 top-10 h-[480px] w-[480px] rounded-full bg-brand-300/20 blur-3xl" />
@@ -34,7 +18,7 @@ export default function DashboardPage() {
         <div>
           <Badge>
             <Sparkles size={14} />
-video to Subtitle          </Badge>
+Video To Srt          </Badge>
 
           <h1 className="mt-6 max-w-3xl font-display text-4xl font-black leading-[1.05] tracking-[-0.055em] text-ink-950 sm:text-5xl lg:text-[66px]">
             Convert your videos into
@@ -43,8 +27,13 @@ video to Subtitle          </Badge>
             </span>
           </h1>
 
-
-        
+          <p className="mt-6 max-w-xl text-base leading-8 text-ink-500 sm:text-lg">
+            Urdu aur English mixed video upload
+            karein. Tool automatically speech ko
+            transcribe karke Roman Urdu subtitles
+            aur downloadable SRT file generate
+            karega.
+          </p>
         </div>
 
         <div

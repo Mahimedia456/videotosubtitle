@@ -3,31 +3,38 @@ import {
   Languages,
   ShieldCheck,
   Sparkles,
-  UploadCloud,
 } from "lucide-react";
 
-import { ProcessingSteps } from "../components/upload/ProcessingSteps";
-import { VideoUploadCard } from "../components/upload/VideoUploadCard";
-import { Badge } from "../components/ui/Badge";
+import {
+  ProcessingSteps,
+} from "../components/upload/ProcessingSteps";
+
+import {
+  VideoUploadCard,
+} from "../components/upload/VideoUploadCard";
+
+import {
+  Badge,
+} from "../components/ui/Badge";
 
 
 const details = [
   {
     title: "Natural Roman Urdu",
     description:
-      "Urdu script ke bajaye messaging-style Roman Urdu output.",
+      "Urdu script ke bajaye clean, messaging-style Roman Urdu output.",
     icon: Languages,
   },
   {
     title: "Roman Urdu SRT",
     description:
-      "Final subtitle file directly Roman Urdu mein generate hogi.",
+      "Final timestamped subtitle file directly Roman Urdu mein generate hogi.",
     icon: FileText,
   },
   {
     title: "Trading vocabulary",
     description:
-      "Forex, liquidity, support aur resistance jaise terms preserve hongi.",
+      "Forex, liquidity, support, resistance aur dusre trading terms preserve honge.",
     icon: ShieldCheck,
   },
 ];
@@ -46,14 +53,15 @@ export default function UploadPage() {
           </Badge>
 
           <h1 className="mt-5 max-w-4xl font-display text-4xl font-black tracking-[-0.045em] text-white sm:text-5xl">
-            Upload your video and generate Roman Urdu subtitles.
+            Upload your video and generate
+            Roman Urdu subtitles.
           </h1>
 
           <p className="mt-5 max-w-2xl text-sm leading-7 text-white/55 sm:text-base">
-            Final output Urdu script mein nahi hoga. Subtitle text is tarah generate hoga:
-            <strong className="ml-1 text-brand-300">
-              Assalam o Alaikum, and good morning.
-            </strong>
+            Urdu aur mixed English speech ko
+            timestamped Roman Urdu subtitles aur
+            downloadable SRT file mein convert
+            karein.
           </p>
         </div>
       </section>
