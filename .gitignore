@@ -1,60 +1,112 @@
-# Node dependencies and builds
+# =========================================================
+# Node dependencies and frontend build output
+# =========================================================
+
 node_modules/
 frontend/node_modules/
 frontend/dist/
 frontend/.vite/
 
+# =========================================================
 # Environment files
+# =========================================================
+
 .env
 .env.*
 !.env.example
-frontend/.env
-backend/.env
 
-# Python
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+# =========================================================
+# Python virtual environments and caches
+# =========================================================
+
 backend/.venv/
+.venv/
+
 __pycache__/
+**/__pycache__/
+
 *.py[cod]
 *.pyd
 *.so
+
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 
-# Whisper and AI caches
+# =========================================================
+# Whisper / Hugging Face / AI caches
+# Important: do NOT ignore generic "models/" because
+# backend/app/models must remain tracked.
+# =========================================================
+
 .cache/
 backend/.cache/
-models/
 
-# Uploaded/generated media
+backend/model-cache/
+backend/models-cache/
+backend/storage/models/
+
+# =========================================================
+# Generated media and runtime storage
+# =========================================================
+
 backend/storage/uploads/*
 backend/storage/audio/*
 backend/storage/projects/*
 backend/storage/subtitles/*
 backend/storage/exports/*
 
-# Preserve storage directories
+# Preserve empty runtime directories in Git
 !backend/storage/uploads/.gitkeep
 !backend/storage/audio/.gitkeep
 !backend/storage/projects/.gitkeep
 !backend/storage/subtitles/.gitkeep
 !backend/storage/exports/.gitkeep
 
-# Local tools
+# =========================================================
+# Local FFmpeg binaries and development tools
+# =========================================================
+
 tools/
 ffmpeg/
 
+# =========================================================
 # Logs
+# =========================================================
+
 *.log
 npm-debug.log*
 yarn-debug.log*
+yarn-error.log*
 pnpm-debug.log*
 
-# Editor / OS
+# =========================================================
+# Editors and operating system files
+# =========================================================
+
 .vscode/
 .idea/
+
 .DS_Store
 Thumbs.db
+desktop.ini
 
+# =========================================================
 # Vercel
+# =========================================================
+
 .vercel/
+
+# =========================================================
+# Docker local overrides
+# =========================================================
+
+docker-compose.override.yml

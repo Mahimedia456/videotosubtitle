@@ -1,10 +1,32 @@
+# =========================================================
+# Python virtual environment and cache files
+# =========================================================
+
 .venv
+.venv/
 __pycache__
+**/__pycache__
+
 *.pyc
 *.pyo
 *.pyd
 
+.pytest_cache
+.mypy_cache
+.ruff_cache
+
+# =========================================================
+# Environment and secrets
+# =========================================================
+
 .env
+.env.*
+!.env.example
+
+# =========================================================
+# Runtime-generated storage
+# The Dockerfile recreates these directories.
+# =========================================================
 
 storage/uploads/*
 storage/audio/*
@@ -12,5 +34,54 @@ storage/projects/*
 storage/subtitles/*
 storage/exports/*
 
+# Preserve placeholder files if present
+!storage/uploads/.gitkeep
+!storage/audio/.gitkeep
+!storage/projects/.gitkeep
+!storage/subtitles/.gitkeep
+!storage/exports/.gitkeep
+
+# =========================================================
+# Local AI/model caches
+# Do not ignore app/models.
+# =========================================================
+
+.cache
+.cache/
+model-cache
+model-cache/
+models-cache
+models-cache/
+storage/models
+storage/models/
+
+# =========================================================
+# Git metadata
+# =========================================================
+
 .git
+.git/
 .gitignore
+
+# =========================================================
+# Local development files
+# =========================================================
+
+*.log
+.vscode
+.vscode/
+.idea
+.idea/
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =========================================================
+# Local tools and binaries
+# =========================================================
+
+tools
+tools/
+ffmpeg
+ffmpeg/
