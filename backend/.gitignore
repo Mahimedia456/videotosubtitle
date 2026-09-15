@@ -1,0 +1,21 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+*.log
+.DS_Store
+
+# Keep the storage directory structure in Git, but never generated files.
+storage/uploads/*
+!storage/uploads/.gitkeep
+storage/audio/*
+!storage/audio/.gitkeep
+storage/projects/*
+!storage/projects/.gitkeep
+storage/subtitles/*
+!storage/subtitles/.gitkeep
+storage/exports/*
+!storage/exports/.gitkeep
